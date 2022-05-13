@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
      {% load static %}
+    <link rel='stylesheet' href='https://www.w3schools.com/bootstrap4/bootstrap_collapse.asp'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -38,7 +39,6 @@
             </ul>
         </div>
     </nav>
-
     <!-- Page content -->
     <div class="container-fluid">
             <h2>{{ course.name }}</h2>
@@ -53,7 +53,6 @@
             <!-- Task: show questions and choices -->
             <!-- <HINT> Use Bootstrap Collapse to hide exam first, more details could be found here
             https://www.w3schools.com/bootstrap4/bootstrap_collapse.asp-->
-
             <!--
 
             A collapse example here:
@@ -62,6 +61,30 @@
                 </div>
 
             -->
+<div class='container-fluid'>
+    <button type="button" class="btn btn-primary container-fluid" data-toggle="collapse" data-target="#start_exam">Start Exam</button>
+    <div id="start_exam" class="collapse">
+        <form id="questionform" action="point to a submit view" method="post">
+            {% for question in course.question_set.all %}
+            <div class="card mt-1">
+                <div class="card-header"><h5>{{ question.question}}</h5></div>
+                {% csrf_token %}
+                    <div class="form-group">
+                        {% for choice in question.choice_set.all %}
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="checkbox" name="choice_{{choice.id}}"
+                                       class="form-check-input" id="{{choice.id}}"
+                                       value="{{choice.id}}">{{ choice.choice }}
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+                <input class="btn btn-success btn-block" type="submit" value="Submit">
+        </form>
+    </div>
+</div>
 
             <!-- <HINT> If user is authenticated, show course exam with a list of question -->
 
@@ -74,7 +97,7 @@
             <!-- <HINT> For each question choice, you may create a checkbox input like
             <input type="check" name="choice_{{choice.id}}" id="{{choice.id}}" ...>
             -->
-
+            
             <!-- A choice submission form example
             <form id="questionform" action="point to a submit view" method="post">
                         ... for each question in the course ...
