@@ -61,6 +61,7 @@
                 </div>
 
             -->
+{% if user.is_authenticated %}
 <div class='container-fluid'>
     <button type="button" class="btn btn-primary container-fluid" data-toggle="collapse" data-target="#start_exam">Start Exam</button>
     <div id="start_exam" class="collapse">
@@ -85,6 +86,7 @@
         </form>
     </div>
 </div>
+{% endif %}
 
             <!-- <HINT> If user is authenticated, show course exam with a list of question -->
 

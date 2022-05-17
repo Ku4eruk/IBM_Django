@@ -143,13 +143,17 @@ def show_exam_result(request, course_id, submission_id):
     print(choices)
     result = 0
     total = 0 
+    chosen = []
     for choice in choices:
         grade = Choice.objects.get(pk=choice).question.question_grade
         correct = Choice.objects.get(pk=choice).correct_choice
+        chosen.append(Choice.objects.get(pk=choice).id)
         if correct:
             result += grade
         total += grade
+    context['choices'] = chosen
     context['course'] = course
     context['result'] = result
     context['total'] = total 
+    context['grade'] = result / total * 100
     return  render(request, 'onlinecourse/exam_result_bootstrap.html', context)   
